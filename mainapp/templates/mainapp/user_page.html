@@ -1,0 +1,48 @@
+{% extends 'mainapp/base.html' %}
+{% block content %}
+
+<h3 class="mt-5 mb-5 text-center" > Личный кабинет </h3>
+<p>Имя пользователя: {{ customer.user.username }}</p>
+<p>Электронная почта: {{ customer.user.email }}</p>
+<p>Номер телефона: {{ customer.phone }}</p>
+<p>Адрес: {{ customer.address }}</p>
+{% if customer.orders %}
+  <h4 class="mt-5 mb-5 text-center" > Ваши заказы </h4>
+  {% for order in customer.related_orders.all %}
+    <hr style="border-color: darkblue; border-width: 3px">
+    <p><strong> Заказ от {{ order.created_at }}</strong></p>
+    <p><strong> Адрес: {{ order.address }}</strong></p>
+    <p><strong> Дата получение: {{ order.order_date }}</strong></p>
+    <p><strong> Статус: {{ order.get_status_verbose_name }}</strong></p>
+    <p class="text-center">Товары </p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Наименование</th>
+          <th scope="col">Изображение</th>
+          <th scope="col">Цена</th>
+          <th scope="col">Кол-во</th>
+          <th scope="col">Общая цена</th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for item in order.cart.products.all %}
+            <tr>
+              <th scope="row">{{ item.content_object.title }}</th>
+              <td class="w-25"> <img class="img-fluid" src="{{ item.content_object.image.url }}" alt="image"> </td>
+              <td>{{ item.content_object.price }} руб.</td>
+              <td>{{ item.qty }}</td>
+              <td>{{ item.final_price }} руб.</td>
+            </tr>
+          {% endfor %}
+          <tr>
+            <td colspan="2"> </td>
+            <td>Итого:</td>
+            <td>{{ order.cart.total_products }}</td>
+            <td><strong>{{ order.cart.final_price }} руб. </strong></td>
+          </tr>
+      </tbody>
+    </table>
+  {% endfor %}
+{% endif %}
+{% endblock %}

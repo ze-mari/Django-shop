@@ -1,0 +1,35 @@
+{% extends 'mainapp/base.html' %}
+{% load crispy_forms_tags %}
+{% block cart %}
+{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+  </ul>
+{% endif %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'base' %}">Главная</a></li>
+    <li class="breadcrumb-item active">Регистрация</li>
+  </ol>
+</nav>
+
+<h3 class="mt-3 mb-5 text-center"> Регистрация </h3>
+<form action="{% url 'auth' %}" method="POST">
+  {% csrf_token %}
+  {{ form|crispy }}
+  <input type="submit" class="btn btn-success btn-block mb-5" value="Зарегистрироваться">
+</form>
+
+{% endblock %}
