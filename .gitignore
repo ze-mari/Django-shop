@@ -1,2 +1,4 @@
 *.py[co]
-db.sqlite3
+media/ 
+static/
+static_dev/

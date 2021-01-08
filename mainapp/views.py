@@ -197,7 +197,7 @@ class AuthenticationView(View):
             customer.save()
             messages.add_message(request, messages.INFO, "Вы зарегистрированы!")
             return HttpResponseRedirect('/')
-        messages.add_message(request, messages.WARNING, "При заполнении следите за примечанием!")
+        messages.add_message(request, messages.WARNING, "При заполнении следите за примечанием, или измените имя пользователя! ")
         return HttpResponseRedirect('/register/')
 
 

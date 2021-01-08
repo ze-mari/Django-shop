@@ -201,10 +201,11 @@ class Customer(models.Model):
     user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE)
     phone = models.CharField(max_length=20, null=True, blank=True, verbose_name="Номер телефона")
     address = models.CharField(max_length=255, null=True, blank=True, verbose_name="Адрес")
-    orders = models.ManyToManyField('Order', verbose_name="заказы покупателя", related_name='related_customer')
+    orders = models.ManyToManyField('Order', verbose_name="заказы покупателя",
+                                    related_name='related_customer', null=True, blank=True)
 
     def __str__(self):
-        return "Покупатель: {} {}".format(self.user.first_name, self.user.last_name)
+        return "Покупатель: {}".format(self.user.username)
 
 
 class Order(models.Model):
