@@ -28,9 +28,9 @@
       <tbody>
           {% for item in order.cart.products.all %}
             <tr>
-              <th scope="row">{{ item.content_object.title }}</th>
-              <td class="w-25"> <img class="img-fluid" src="{{ item.content_object.image.url }}" alt="image"> </td>
-              <td>{{ item.content_object.price }} руб.</td>
+              <th scope="row">{{ item.product.title }}</th>
+              <td class="w-25"> <img class="img-fluid" src="{{ item.product.image.url }}" alt="image"> </td>
+              <td>{{ item.product.price }} руб.</td>
               <td>{{ item.qty }}</td>
               <td>{{ item.final_price }} руб.</td>
             </tr>
@@ -38,7 +38,7 @@
           <tr>
             <td colspan="2"> </td>
             <td>Итого:</td>
-            <td>{{ order.cart.total_products }}</td>
+            <td>{{ order.cart.total_products }} вид</td>
             <td><strong>{{ order.cart.final_price }} руб. </strong></td>
           </tr>
       </tbody>
