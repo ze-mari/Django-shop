@@ -1,17 +1,14 @@
 {% extends 'admin/change_form.html' %}
 {% load static %}
 
-{% block admin_change_form_document_ready %}
+{% block after_related_objects%}
+
 {{ block.super }}
-<script>
-(function($) {
-    $('#id_sd').on('click', function (){
-        if($('#id_sd').prop('checked') == true){
-            $('#id_sd_volume').prop('readonly', false).val('').css('background', 'white');
-        }else{
-            $('#id_sd_volume').prop('readonly', true).val('').css('background', 'lightgray');
-        }
-    })
-})(django.jQuery);
-</script>
+
+{% if adminform and not add %}
+    <p style="margin-bottom: 20px"><a href="{% url 'add_specification' object_id=object_id %}">
+        <input type="button" class="default" value="Добавить Характеристики">
+    </a></p>
+{% endif %}
+
 {% endblock %}

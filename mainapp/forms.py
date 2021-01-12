@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Order
+from .models import Order, Product
 
 
 class OrderForm(forms.ModelForm):
@@ -29,6 +29,21 @@ class CustomerCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ("username", "email")
+
+
+class AddSpecificationForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        object_id = kwargs.get('object_id')
+        del kwargs["object_id"]
+        super().__init__(*args, **kwargs)
+        product = Product.objects.get(id=object_id)
+        specifications = product.category.related_specifications.all()
+        for specification in specifications:
+            self.fields[specification.slug] = forms.CharField(max_length=255,
+                                                              required=specification.required,
+                                                              label=specification.name)
+
 
 
 

@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView, View
 from .models import Category, Customer, CartProduct, User, Product
 from .mixins import CategoryDetailMixin, CartMixin
-from .forms import OrderForm, CustomerCreationForm
+from .forms import OrderForm, CustomerCreationForm, AddSpecificationForm
 from .utils import recalc_cart
 
 
@@ -181,7 +181,8 @@ class AuthenticationView(View):
             customer.save()
             messages.add_message(request, messages.INFO, "Вы зарегистрированы!")
             return HttpResponseRedirect('/')
-        messages.add_message(request, messages.WARNING, "При заполнении следите за примечанием, или измените имя пользователя! ")
+        messages.add_message(request, messages.WARNING,
+                             "При заполнении следите за примечанием, или измените имя пользователя! ")
         return HttpResponseRedirect('/register/')
 
 
@@ -199,5 +200,29 @@ class UserPageView(LoginRequiredMixin, CartMixin, View):
         }
         return render(request, 'mainapp/user_page.html', context=context)
 
+
+class AddSpecificationView(View):
+
+    def get(self, request, *args, **kwargs):
+        object_id = kwargs['object_id']
+        product = Product.objects.get(id=object_id)
+        category = product.category
+        specifications = category.related_specifications.all()
+        context = {
+            'specifications': specifications,
+            'product': product,
+            'form': AddSpecificationForm(object_id=object_id)
+        }
+        return render(request, 'mainapp/add_specification.html', context=context)
+
+    def post(self, request, *args, **kwargs):
+        object_id = kwargs.get('object_id')
+        product = Product.objects.get(id=object_id)
+        form = AddSpecificationForm(request.POST or None, object_id=object_id)
+        if form.is_valid():
+            product.specifications = form.cleaned_data
+            product.save()
+            return HttpResponseRedirect(f'/products/{product.slug}')
+        return HttpResponseRedirect(f'/products/add-specification/{product.id}')
 
 

@@ -16,5 +16,6 @@ urlpatterns = [
     path('auth/', views.AuthenticationView.as_view(), name='auth'),
     path('login/', LoginView.as_view(template_name='mainapp/login.html'), name='login'),
     path('logout/', LogoutView.as_view(template_name='mainapp/base.html', next_page='base'), name='logout'),
-    path('user-page/', views.UserPageView.as_view(), name='user_page')
+    path('user-page/', views.UserPageView.as_view(), name='user_page'),
+    path('products/add-specification/<str:object_id>', views.AddSpecificationView.as_view(), name='add_specification')
 ]

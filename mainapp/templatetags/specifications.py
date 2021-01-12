@@ -1,5 +1,6 @@
 from django import template
 from django.utils.safestring import mark_safe
+from ..models import Specification
 
 register = template.Library()
 
@@ -23,7 +24,11 @@ TABLE_CONTENT = """
 
 
 def get_product_spec(product):
+    spec = product.specifications
     table_content = ''
+    for key, value in spec.items():
+        name = Specification.objects.get(slug=key).name
+        table_content += TABLE_CONTENT.format(name=name, value=value)
     return table_content
 
 

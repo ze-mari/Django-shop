@@ -14,7 +14,7 @@
     <div class="col-md-4">
         <img src="{{ product.image.url }}" class="img-fluid">
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8 mb-5">
         <h3> {{ product.title }} </h3>
         <p>Цена: {{ product.price }} ₽</p>
         <p>Описание: {{ product.description }}</p>
@@ -25,12 +25,6 @@
 
     {{ product|product_spec }}
 
-    <!--{% if product.category.slug == 'notebooks' %}
-        {% include 'mainapp/notebook_specification.html' %}
-    {% endif %}
-    {% if product.category.slug == 'smartphones' %}
-        {% include 'mainapp/smartphone_specification.html' %}
-    {% endif %}-->
 
 </div>
 

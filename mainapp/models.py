@@ -45,7 +45,10 @@ class Specification(models.Model):
                                  related_name='related_specifications')
     name = models.CharField(max_length=150, verbose_name='Название спецификации')
     slug = models.SlugField(unique=True)
-    required = models.BooleanField(verbose_name='Обязательно для заполнение')
+    required = models.BooleanField(verbose_name='Обязательно для заполнение', default=True)
+
+    def __str__(self):
+        return f'{self.category.name}, {self.name}'
 
 
 class CartProduct(models.Model):
